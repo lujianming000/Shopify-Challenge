@@ -1,0 +1,69 @@
+
+2021 Fall Data Science Intern Challenge 
+
+Please complete the following questions, and provide your thought process/work. You can attach your work in a text file, link, etc. on the application page. 
+Please ensure answers are easily visible for reviewers!
+
+
+Question 1: Given some sample data, write a program to answer the following: click here to access the required data set
+
+On Shopify, we have exactly 100 sneaker shops, and each of these shops sells only one model of shoe. We want to do some analysis of the average order value (AOV). 
+When we look at orders data over a 30 day window, we naively calculate an AOV of $3145.13. 
+Given that we know these shops are selling sneakers, a relatively affordable item, something seems wrong with our analysis. 
+
+a.	Think about what could be going wrong with our calculation. Think about a better way to evaluate this data. 
+Answer: 
+The reason why the answer is $3145.13 is that we only take the average of all order amounts. If the total items of some orders are large, 
+the order amount will be very large for those orders. The average will go up for sure because of those orders. 
+The good thing is that we can find the problem because of this large average, so we can know the method is wrong. 
+My solution is to create a new column to get the average price for each order. Since every store only sells one model of shoe. 
+That is also the sneaker price for each store. To do that is just using order amounts divided by total items. After that, 
+we can take the average for the sneaker price of each order this month, then we will get the right answer ($387.74). 
+However, if we sort the sneaker price we will found one store sell a very expensive shoe, which is about $25,725. It will significantly affect AOV. 
+If we take them out, the answer would be $152.48, which is a reasonable price.
+
+b.	What metric would you report for this dataset?
+Answer:
+•	Sneaker price at each store
+•	Total items sell for 100 stores 
+•	Total items sell for each store
+•	The total amount for 100 stores
+•	The total amount for each store
+•	Total cash sell, Total debit card sell, Total credit card sell for 100 shops
+•	Total cash sell, Total debit card sell, Total credit card sell for each store.
+•	Percentage of cash sell, debit card sell, credit card sell for 100 shops
+•	Percentage of cash sell, debit card sell, credit card sell for each shop
+•	Total amount ordered for each user
+•	Total item sell for each user
+
+c.	What is its value?
+Answer:
+$387.74 or $152.48
+
+Question 2: For this question you’ll need to use SQL. Follow this link to access the data set required for the challenge. 
+Please use queries to answer the following questions. Paste your queries along with your final numerical answers below.
+
+a.	How many orders were shipped by Speedy Express in total?
+Answer: 54
+Code:
+SELECT count(*) as SpeedyExpressOrders  FROM [shippers]
+INNER JOIN [Orders]
+    ON [shippers].ShipperID = [Orders].ShipperID
+WHERE ShipperName = "Speedy Express";
+
+b.	What is the last name of the employee with the most orders? Peacock
+Answer: Peacock
+Code:
+SELECT LastName, count(*) as numbers FROM [Orders]
+INNER JOIN [Employees]
+    ON [Orders].EmployeeID = [Employees].EmployeeID
+GROUP BY LastName
+ORDER BY numbers DESC;
+
+c.	What product was ordered the most by customers in Germany? 
+Answer: 25
+Code:
+SELECT count(*) as GermanyOrders FROM [Orders]
+INNER JOIN [Customers]
+    ON [Orders].CustomerID = [Customers].CustomerID
+WHERE Country = "Germany";
